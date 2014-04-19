@@ -104,7 +104,7 @@ function ApplicationModel(stompClient, map, cfg) {
             });
 
 
-            stompClient.subscribe(cfg.MAP_UPDATE_PATH, function(message) {
+            stompClient.subscribe(cfg.MAP_ERROR_PATH_PATH, function(message) {
                 self.pushNotification("Error " + message.body);
             });
             self.goOnline();
