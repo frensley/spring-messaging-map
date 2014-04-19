@@ -13,3 +13,8 @@ This is accomplished using Spring Messaging and Websockets.
 1. ``./gradlew build``
 1. ``./gradlew bootRun``
 1. Use your browser to open http://localhost:9090 (use any name to login)
+
+
+#### To-do:
+- Unit testing. Not sure how to mock websockets.
+- More interactivity. Chat?
