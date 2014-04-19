@@ -60,7 +60,7 @@ public class MapService {
     }
 
     /**
-     * Initial request for all current markers
+     * Incoming request for all current markers
      * @param principal
      * @return
      * @throws Exception
@@ -70,6 +70,12 @@ public class MapService {
 
         return getUserMarkers();
     }
+
+    /**
+     * Incoming request to move or remove marker
+     * @param command
+     * @param principal
+     */
 
     @MessageMapping(MAP_COMMAND_PATH)
     public void executeMapCommand(MapCommand command, Principal principal) {
@@ -85,6 +91,11 @@ public class MapService {
         }
     }
 
+    /**
+     * Error path for for logging error on the message bus
+     * @param exception
+     * @return
+     */
     @MessageExceptionHandler
     @SendToUser(MAP_ERROR_PATH)
     public String handleException(Throwable exception) {
@@ -107,7 +118,7 @@ public class MapService {
     }
 
     /**
-     * Update the marker cache and send new positions to all connected clients
+     * Update the user in the marker cache and send new positions to all connected clients
      * @param coords
      * @param username
      */
@@ -120,6 +131,10 @@ public class MapService {
         sendMapCommand(command);
     }
 
+    /**
+     * Remove the the user's marker from the marker cache
+     * @param username
+     */
     public void removeMarker(String username) {
         MapCommand command = new MapCommand(username, null);
         //command d for move
@@ -128,14 +143,28 @@ public class MapService {
         sendMapCommand(command);
     }
 
+    /**
+     * Convert cache into Map
+     * @return
+     */
     public Collection<UserMarker> getUserMarkers() {
         return markerCache.asMap().values();
     }
 
+    /**
+     * Retreieve username for websocket session
+     * @param id
+     * @return
+     */
     public String getUserForSession(String id) {
         return sessionCache.get(id);
     }
 
+    /**
+     * Add username to websocket session cache
+     * @param id
+     * @param username
+     */
     public void registerSession(String id, String username) {
         if (id != null && username != null) {
             sessionCache.put(id, username);
@@ -143,6 +172,10 @@ public class MapService {
         }
     }
 
+    /**
+     * Remove session from session cache
+     * @param id
+     */
     public void unregisterSession(String id) {
         String username = getUserForSession(id);
         if (username != null) {
@@ -151,11 +184,18 @@ public class MapService {
         sessionCache.remove(id);
     }
 
+    /**
+     * Send specified map command to all users
+     * @param command
+     */
     private void sendMapCommand(MapCommand command) {
         logger.debug("MapCommand: " + command.getAction());
         messagingTemplate.convertAndSend(MAP_UPDATE_PATH, command);
     }
 
+    /**
+     * Type Info is not used. It's interesting to see it serialized into JSON.
+     */
     @JsonTypeInfo(
             use = JsonTypeInfo.Id.MINIMAL_CLASS,
             include = JsonTypeInfo.As.PROPERTY,

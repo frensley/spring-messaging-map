@@ -71,22 +71,38 @@ public class Application {
             return new MapChannelInterceptor();
         }
 
+        /**
+         * Websocket connection point (STOMP protocol)
+         * @param registry
+         */
         @Override
         public void registerStompEndpoints(StompEndpointRegistry registry) {
             registry.addEndpoint("/socket").withSockJS();
         }
 
+        /**
+         * Message broker configuration
+         * @param registry
+         */
         @Override
         public void configureMessageBroker(org.springframework.messaging.simp.config.MessageBrokerRegistry registry) {
             registry.enableSimpleBroker("/queue/", "/topic/");
             registry.setApplicationDestinationPrefixes("/app");
         }
 
+        /**
+         * Channel interceptor configuration
+         * @param registration
+         */
         @Override
         public void configureClientInboundChannel(ChannelRegistration registration) {
             registration.setInterceptors(mapChannelInterceptor());
         }
 
+        /**
+         * Channel interceptor and thread pool for this channel.
+         * @param registration
+         */
         @Override
         public void configureClientOutboundChannel(ChannelRegistration registration) {
             registration.taskExecutor().corePoolSize(4).maxPoolSize(10);
@@ -94,6 +110,10 @@ public class Application {
         }
     }
 
+    /**
+     * Web security configuration. Allow only webjars and assets unless logged in.
+     * Defines what the login/logout urls are.
+     */
     @Configuration
     static class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         @Override
@@ -119,6 +139,11 @@ public class Application {
 
         }
 
+        /**
+         * Configure user details service and password encoder that takes any user and any password.
+         * @param auth
+         * @throws Exception
+         */
         @Override
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
             //authenticate everything
@@ -132,6 +157,12 @@ public class Application {
                 }
             }).passwordEncoder(new PasswordEncoder() {
 
+                /**
+                 * Allows any passwords
+                 * @param rawPassword
+                 * @param encodedPassword
+                 * @return
+                 */
                 @Override
                 public boolean matches(CharSequence rawPassword, String encodedPassword) {
                     return true;

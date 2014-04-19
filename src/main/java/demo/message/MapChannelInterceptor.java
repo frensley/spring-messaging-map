@@ -22,14 +22,16 @@ public class MapChannelInterceptor extends ChannelInterceptorAdapter {
 
     protected Logger logger = LoggerFactory.getLogger(MapChannelInterceptor.class);
 
-    /*
-     * This must be static because the actual service will become available
-     * later in the bean lifecycle
-     */
     @Autowired
     private MapService mapService;
 
 
+    /**
+     * Custom interceptor to detect disconnects and connects.
+     * @param message
+     * @param channel
+     * @return
+     */
     public Message preSend(Message message, MessageChannel channel) {
 
         SimpMessageHeaderAccessor headers = SimpMessageHeaderAccessor.wrap(message);
