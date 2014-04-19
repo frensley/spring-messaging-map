@@ -1,6 +1,6 @@
-## Interactive Map  using Spring Boot and Spring Messaging
+## Interactive Google Map using Spring Boot, Spring Messaging and Websockets
 
-Green marker is you. Red markers are other users. You can drag the green marker anywhere on the map. The drag will be reflected on all users maps.
+Green marker is you. Red markers are other users. You can drag the green marker anywhere on the map. The drag will be reflected on all user maps.
 
 This is accomplished using Spring Messaging and Websockets.
 
