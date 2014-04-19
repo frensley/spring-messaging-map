@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Map Messaging Demo</title>
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <link th:href="@{/webjars/bootstrap/3.1.1/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/webjars/bootstrap-glyphicons/bdd2cbfba0/css/bootstrap-glyphicons.css}" rel="stylesheet">
+    <link th:href="@{/css/map.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div id="heading" class="masthead">
+        <div class="pull-right">
+            <span class="text-info" data-bind="text: username"><em></em></span>&nbsp;
+            <i id="online-indicator" title="Online connected" class="glyphicon"></i>
+            <button data-bind="click: logout" class="btn"><i class="glyphicon glyphicon-off"></i></button>
+        </div>
+        <h3 class="muted">Map Messaging Demo</h3>
+    </div>
+    <div id="main-content">
+        <div id="map_canvas"></div>
+        <div style="height: 150px" class="alert alert-warning">
+            <h5>Notifications</h5>
+            <ul data-bind="foreach: notifications">
+                <li data-bind="text: notification"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- 3rd party -->
+<script type='text/javascript' src="http://maps.google.com/maps/api/js?sensor=false&.js"></script>
+<script type='text/javascript' src="http://google-maps-utility-library-v3.googlecode.com/svn/tags/markerwithlabel/1.1.9/src/markerwithlabel.js"></script>
+<script th:src="@{/webjars/jquery/1.9.0/jquery.js}"></script>
+<script th:src="@{/webjars/bootstrap/3.1.1/js/bootstrap.js}"></script>
+<script th:src="@{/webjars/knockout/3.1.0/knockout.js}"></script>
+<script th:src="@{/webjars/sockjs-client/0.3.4/sockjs.js}"></script>
+<script th:src="@{/webjars/stomp-websocket/2.3.0/stomp.js}"></script>
+
+<!-- application -->
+<script th:src="@{/js/map.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    (function() {
+        var cfg = {
+            ctx: /*[[${#httpServletRequest.contextPath}]]*/ null,
+            MAP_COMMAND_PATH: /*[[${MAP_COMMAND_PATH}]]*/ null,
+            MAP_ITEM_PATH: /*[[${MAP_ITEM_PATH}]]*/ null,
+            MAP_UPDATE_PATH: /*[[${MAP_UPDATE_PATH}]]*/ null,
+            MAP_ERROR_PATH: /*[[${MAP_ERROR_PATH}]]*/ null
+        };
+        var socket = new SockJS('/socket');
+        var stompClient = Stomp.over(socket);
+        var map = new google.maps.Map(document.getElementById('map_canvas'), {
+            zoom: 11,
+            center: new google.maps.LatLng(30.2500, -97.7500),
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+        var appModel = new ApplicationModel(stompClient,map, cfg);
+        ko.applyBindings(appModel);
+
+        appModel.connect();
+
+    })();
+    /*]]>*/
+</script>
+
+</body>
+</html>

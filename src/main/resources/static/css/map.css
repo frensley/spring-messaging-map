@@ -1,0 +1,41 @@
+
+body {
+    background-color: #f5f5f5;
+}
+
+#main-content {
+    max-width: 940px;
+    padding: 20px 20px 0px;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.alert.alert-warning h5 {
+    margin-top: 0px;
+}
+
+#map_canvas{
+    width: 100%;
+    height: 500px;
+    margin-bottom: 20px;
+
+}
+
+.map_marker_label {
+    color: red;
+    background-color: white;
+    font-family: "Lucida Grande", "Arial", sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    width: 40px;
+    border: 2px solid black;
+    white-space: nowrap;
+}

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Sign in &middot; Stock Trading Portfolio Sign in</title>
+    <link th:href="@{/webjars/bootstrap/3.1.1/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/css/login.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+    <div data-bind="visible: showErrorMessage" class="alert alert-error">
+        Invalid username/password.
+    </div>
+    <form class="form-signin" method="post" action="login.html">
+        <h3 class="muted form-signin-heading">Please sign in</h3>
+        <input type="text" class="input-block-level" placeholder="User name" name="username">
+        <!--<input style="display: none" type="password" class="input-block-level" placeholder="Password" name="password">-->
+        <button class="btn btn-primary" type="submit">Sign in</button>
+    </form>
+</div><!-- /container -->
+
+<script th:src="@{/webjars/knockout/3.1.0/knockout.js}"></script>
+
+<script type="text/javascript">
+    ko.applyBindings({
+        showErrorMessage : ko.computed(function() {
+            var query = window.location.search;
+            return query ? (query.indexOf('error') != -1) : false;
+        })
+    });
+</script>
+
+</body>
+</html>

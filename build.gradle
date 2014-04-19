@@ -1,0 +1,56 @@
+buildscript {
+	ext {
+		springBootVersion = '1.0.1.RELEASE'
+	}
+    repositories {
+    	mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "com.coders-kitchen:compileonlyplugin:1.0.0"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+apply plugin: 'compileOnly'
+
+//how to pass jvm arguments for springRun
+//applicationDefaultJvmArgs = ["-Dfile.encoding=UTF-8", "-verbose:class"]
+
+jar {
+    baseName = 'demo'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // webjars
+    compile 'org.webjars:bootstrap:3.1.1'
+    compile 'org.webjars:knockout:3.1.0'
+    compile 'org.webjars:sockjs-client:0.3.4'
+    compile 'org.webjars:stomp-websocket:2.3.0'
+    compile 'org.webjars:bootstrap-glyphicons:bdd2cbfba0'
+    // application
+    compile "org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}"
+    //compile "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-remote-shell:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-websocket:${springBootVersion}"
+    compile "org.springframework:spring-messaging:4.0.3.RELEASE"
+    compile "com.google.guava:guava:15.0"
+    compile "net.sourceforge.nekohtml:nekohtml:1.9.20"
+    compileOnly "org.projectlombok:lombok:1.12.6"
+    testCompile "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.11'
+}
