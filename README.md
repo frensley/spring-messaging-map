@@ -6,3 +6,10 @@ This is accomplished using Spring Messaging and Websockets.
 
 
 ![screen-shot-1](../master/doc/screen-shot-2.png)
+
+#### Build Instructions
+1. ``git clone https://github.com/frensley/spring-messaging-map.git``
+1. ``cd spring-messaging-map``
+1. ``./gradlew build``
+1. ``./gradlew bootRun``
+1. Use your browser to open http://localhost:9090 (use any name to login)
